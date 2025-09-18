@@ -151,9 +151,9 @@ class CamaraClient:
     def get_deputados(self, 
                      id: Optional[int] = None,
                      nome: Optional[str] = None,
-                     siglaUf: Optional[str] = None,
-                     siglaPartido: Optional[str] = None,
-                     idLegislatura: Optional[int] = None,
+                     siglaUf: Optional[list[str]] = None,
+                     siglaPartido: Optional[list[str]] = None,
+                     idLegislatura: Optional[list[int]] = None,
                      dataInicio: Optional[str] = None,
                      dataFim: Optional[str] = None) -> List[Dict[str, Any]]:
         """
@@ -419,36 +419,6 @@ class CamaraClient:
             params['dataFim'] = dataFim
             
         return self._make_request(f'/deputados/{deputado_id}/proposicoes', params if params else None)['dados']
-    
-    def get_deputado_votacoes(self, deputado_id: int,
-                            id: Optional[int] = None,
-                            idProposicao: Optional[int] = None,
-                            dataInicio: Optional[str] = None,
-                            dataFim: Optional[str] = None) -> List[Dict[str, Any]]:
-        """
-        Obtém votações de um deputado
-        
-        Args:
-            deputado_id: ID do deputado
-            id: ID da votação
-            idProposicao: ID da proposição
-            dataInicio: Data de início (formato YYYY-MM-DD)
-            dataFim: Data de fim (formato YYYY-MM-DD)
-            
-        Returns:
-            Lista de votações
-        """
-        params = {}
-        if id is not None:
-            params['id'] = id
-        if idProposicao is not None:
-            params['idProposicao'] = idProposicao
-        if dataInicio is not None:
-            params['dataInicio'] = dataInicio
-        if dataFim is not None:
-            params['dataFim'] = dataFim
-            
-        return self._get_paginated_data(f'/deputados/{deputado_id}/votacoes', params if params else None)
     
     # ==================== PROPOSIÇÕES ====================
     
